@@ -1,4 +1,5 @@
 # GENSYN SWARM NODE COMPLETE SETUP GUIDE ✨
+![image](https://github.com/user-attachments/assets/f6b93c5d-38aa-4926-a2a9-3739fd236072)
 
 ## INTRODUCTION
 Gensyn is a decentralized machine learning network that rewards compute providers for contributing their resources to train AI models. It recently raised $55M from Andreessen Horowitz (@a16z), and it operates through testnet Swarm nodes which you can run on:
@@ -180,6 +181,93 @@ source .venv/bin/activate
 ./run_rl_swarm.sh
 ```
 
+-------
+
+🚀 STEP 9: RUN THE SWARM NODE
+
+./run_rl_swarm.sh
+
+You’ll see:
+
+Would you like to connect to the Testnet? [Y/n]
+
+Type Y
+
+A browser window should open. If not:
+
+Go to http://localhost:3000/
+
+	•	Login with your email → enter OTP
+	•	Return to Terminal → you’ll see your ORG_ID — save it.
+	•	When asked:
+
+Would you like to push models to Hugging Face? [y/N]
+
+Type N
+
+Done! ✅ Your node is live.
+
+⸻
+
+📌 IMPORTANT SETUP CHECKPOINTS
+
+After running the node for the first time, make sure you don’t miss these 3 key steps:
+
+⸻
+
+✅ 1. NOTE YOUR NODE NAME
+
+When you run:
+
+./run_rl_swarm.sh
+
+You’ll see something like:
+
+Node registered as 'your-node-name'
+
+🔖 Copy and save this name — it’s used to identify your node on the Gensyn Testnet.
+
+⸻
+
+✅ 2. NOTE YOUR ORG_ID
+
+After logging in through the browser:
+	•	Once your terminal confirms successful login, look for:
+
+ORG_ID: org_xxxxxxxxxxxxxxxxx
+
+🔖 Copy this entire org_xxxxxx... string and store it in a safe place — it links your node to your account and is required for future node restarts or troubleshooting.
+
+⸻
+
+✅ 3. SAVE YOUR swarm.pem FILE
+
+This file holds the credentials for your node — DO NOT DELETE IT.
+
+🔐 If running locally:
+
+The file is located at:
+
+~/rl-swarm/swarm.pem
+
+Back it up:
+
+cp ~/rl-swarm/swarm.pem ~/Documents/gensyn_swarm.pem
+
+🔐 If running on a VPS:
+
+To transfer the file to your local machine:
+
+scp username@your_vps_ip:~/rl-swarm/swarm.pem ~/Downloads/swarm.pem
+
+💾 Back it up in multiple secure locations (USB, Google Drive, encrypted ZIP, etc.)
+
+⸻
+
+🔁 If you ever re-run the node or move it:
+
+You’ll need to reuse the swarm.pem file. If it’s missing, a new node gets created, and your old node is lost.
+
 ---
 
 ## PART 5: OPTIONAL - HUGGINGFACE ACCESS TOKEN 🧡
@@ -190,9 +278,10 @@ source .venv/bin/activate
 ---
 
 ## LINKS & RESOURCES 🔗
-- Gensyn GitHub: https://github.com/gensyn-ai/rl-swarm
-- Troubleshooting Docs: https://github.com/gensyn-ai/rl-swarm/tree/brian-address-cpu-only-crashes?tab=readme-ov-file#troubleshooting
-- Telegram: https://t.me/cryptogg
+- Gensyn GitHub: [LINK](https://github.com/gensyn-ai/rl-swarm)
+- Troubleshooting Docs: [Gensyn ai Docs](https://github.com/gensyn-ai/rl-swarm/tree/brian-address-cpu-only-crashes?tab=readme-ov-file#troubleshooting)
+- Telegram: [Maverick 🦅](https://t.me/SavvyStrat)
+- Twitter: [Alpha](https://x.com/PhaResearcher)
 
 ---
 
@@ -204,9 +293,6 @@ Congratulations, your Gensyn Swarm Node is now up and running!
 > - Re-run setup with correct config
 > - Contact support or raise a GitHub issue
 
-[Join the Community!](https://x.com/PhaResearcher)
 
-For more detailed troubleshooting, refer to the official docs:
-[Gensyn ai](https://github.com/gensyn-ai/rl-swarm?tab=readme-ov-file)
 
 Happy contributing to decentralized AI! 🤖
