@@ -7,12 +7,12 @@ By following this guide, you will be able to:
 
 This guide is beginner-friendly and makes the setup process smooth and simple. You will be up and running quickly, contributing to the future of machine learning on the decentralized web! 🌐
 
-**Device/System Requirements 🖥️**
+Device/System Requirements 🖥️
 
 IMPORTANT: The Gensyn Testnet Node may not work properly on low-spec devices. Running it on devices with low specifications can cause crashes.
 
 - Minimum 16GB of RAM for local PC.
-- Use CUDA-compatible GPUs like RTX 3090, RTX 4090, A100, H100 for GPU nodes.
+- Use CUDA-compatible GPUs like RTX 3090, RTX 4090, A100, and H100 for GPU nodes.
 ⸻
 
 Pre-Requirements 🛠️
@@ -226,9 +226,9 @@ vllm_gpu_memory_utilization: 0.4
 
 Save with Ctrl + X, then press Y and Enter.
 
-Restart the node and check if the issue resolves.
+restart the node and check if the issue is resolved
 
-⸻
+_____
 
 [Join the Community!](https://x.com/PhaResearcher)
 
