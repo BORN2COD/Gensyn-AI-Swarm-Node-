@@ -6,125 +6,151 @@ Gensyn is a new machine learning network that has raised $55 million from a16z (
 By following this guide, you will be able to:
 1. Run a Swarm Node on your local PC for testing and development.
 2. Set up a Swarm Node on a VPS to help the decentralized network.
-3. Use rented GPUs from cloud providers to run your node with more power.
-
-This guide is beginner-friendly and makes the setup process smooth and simple. You will be up and running quickly, contributing to the future of machine learning on the decentralized web! 🌐
-
-Device/System Requirements 🖥️
-
-IMPORTANT: The Gensyn Testnet Node may not work properly on low-spec devices. Running it on devices with low specifications can cause crashes.
-
-- Minimum 16GB of RAM for local PC.
-- Use CUDA-compatible GPUs like RTX 3090, RTX 4090, A100, and H100 for GPU nodes.
+3. Use rented GPUs from cloud providers like Hyperbolic to run your node with more power.
 ⸻
 
-Pre-Requirements 🛠️
+🧰 REQUIREMENTS BEFORE YOU START
 
-Before you start, make sure your system is ready by following these steps.
-
-For Linux/WSL:
-
-sudo apt update && sudo apt install -y python3 python3-venv python3-pip curl wget screen git lsof
-
-For Mac:
-
-brew install python
-
-Verify Python version:
-
-python3 --version
-
-Install Node.js, npm, and Yarn
-
-For Linux/WSL:
-
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt update && sudo apt install -y nodejs
-
-Install Yarn:
-
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list > /dev/null
-sudo apt update && sudo apt install -y yarn
-
-For Mac:
-
-brew install node && corepack enable && npm install -g yarn
-
-Check version (Linux/Mac):
-
-node -v
-npm -v
-yarn -v
+Resource	Minimum	Recommended
+OS	Ubuntu 20.04+ / MacOS	Ubuntu 22.04 LTS
+CPU	4 cores	8+ cores
+RAM	8GB	16GB+
+GPU	Optional	NVIDIA A100 / RTX 4090 (CUDA support)
+Python	>= 3.10	3.11
+Disk	20 GB free	SSD for better performance
+Internet	Stable	Stable and fast
 
 
 
 ⸻
 
-Setting Up the Node 🛠️
+✅ STEP 1: CONNECT TO VPS / DEVICE
 
-1️⃣ Clone RL-SWARM Repo
+On VPS:
 
-git clone https://github.com/gensyn-ai/rl-swarm.git
+ssh username@your_vps_ip
 
-2️⃣ Create a screen session (on VPS)
+Skip this if you’re using your local PC or Mac.
+
+⸻
+
+🔧 STEP 2: INSTALL SYSTEM DEPENDENCIES
+
+🐧 Linux / WSL:
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3 python3-pip python3-venv python3-dev curl wget git lsof nano screen build-essential htop tmux jq make gcc clang autoconf automake pkg-config libssl-dev libleveldb-dev libgbm1 unzip tar
+
+🍎 MacOS (using Homebrew):
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python node yarn screen git
+corepack enable
+
+
+
+⸻
+
+🧱 STEP 3: INSTALL NODE.JS, YARN & DOCKER
+
+Install Node.js & Yarn:
+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo npm install -g yarn
+
+Install Docker (Linux):
+
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+
+
+⸻
+
+🔄 STEP 4: CLONE RL-SWARM REPOSITORY
+
+git clone https://github.com/gensyn-ai/rl-swarm
+cd rl-swarm
+
+Create a screen session to keep your node running in background:
 
 screen -S gensyn
 
-3️⃣ Navigate to the RL-SWARM directory
 
-cd rl-swarm
 
-4️⃣ Create & Activate a Virtual Environment
+⸻
+
+🐍 STEP 5: SETUP PYTHON VIRTUAL ENVIRONMENT
 
 python3 -m venv .venv
 source .venv/bin/activate
 
-5️⃣ Install Left-over dependencies
 
-cd modal-login
-yarn install
-yarn upgrade && yarn add next@latest && yarn add viem@latest
-
-6️⃣ Run the Swarm Node 🚀
-
-cd ..
-./run_rl_swarm.sh
-
-After running the above command, you will be prompted:
-
-Would you like to connect to the Testnet? [Y/n]
-
-Enter Y to continue.
-
-7️⃣ Login to the Swarm Node
-
-A web pop-up will appear prompting you to log in (if it doesn’t, paste http://localhost:3000/ into your browser).
-	•	Login with your email ID.
-	•	Enter the OTP sent to your email.
-
-Once you are logged in, your ORG_ID will appear in the terminal. Save this ID as it will be important for future interactions.
-
-Next, the system will ask:
-
-Would you like to push models you train in the RL swarm to the Hugging Face Hub? [y/N]
-
-Enter N to skip.
 
 ⸻
 
-Your Node is Now Running! 🚀
+📦 STEP 6: INSTALL JAVASCRIPT DEPENDENCIES
 
-You will now start seeing logs in your terminal.
+cd modal-login
+yarn install
+yarn upgrade
+yarn add next@latest viem@latest
+cd ..
 
-8️⃣ Detach from the screen session (on VPS)
 
-To detach from the screen session and leave the node running in the background:
 
-Ctrl + A, then press D
+⸻
 
-9️⃣ Attach to the screen session to view logs
+🚀 STEP 7: RUN THE NODE
 
-To check on your node’s status later:
+./run_rl_swarm.sh
+
+You’ll be prompted with:
+
+Would you like to connect to the Testnet? [Y/n]
+→ Enter Y
+
+⸻
+
+🔗 Browser Login Step
+
+A browser window should open automatically. If not, especially on VPS, follow below:
+
+🌐 Make login UI accessible (on VPS only):
+
+sudo apt install ufw -y
+sudo ufw allow 3000/tcp
+sudo ufw enable
+wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+sudo dpkg -i cloudflared-linux-amd64.deb
+cloudflared tunnel --url http://localhost:3000
+
+Then, from your local machine, open the generated cloudflared URL.
+→ Login with your email and enter OTP
+→ Copy the ORG_ID displayed in terminal
+→ When asked about HuggingFace model push → Type N
+
+⸻
+
+🧪 STEP 8: VERIFY & DETACH
+
+To keep your node running:
+
+Detach the screen session:
+
+Ctrl + A → then D
+
+To re-attach anytime:
 
 screen -r gensyn
 
@@ -132,105 +158,31 @@ screen -r gensyn
 
 ⸻
 
-🛠 FAQ & Troubleshoot 🛠
+🚨 COMMON ISSUES & SOLUTIONS
 
-1️⃣ How to Access http://localhost:3000/ on VPS? 📶
-
-To access the Gensyn UI on a VPS:
-	1.	Open a new terminal and log into your VPS.
-	2.	Allow incoming connections on VPS:
-
-sudo apt install ufw -y
-sudo ufw allow 3000/tcp
-sudo ufw enable
-
-	3.	Install cloudflared on your VPS:
-
-wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-sudo dpkg -i cloudflared-linux-amd64.deb
-
-	4.	Run the tunnel command:
-
-cloudflared tunnel --url http://localhost:3000
-
-Now you can access the web UI from your local machine.
-
-⸻
-
-2️⃣ Solution for OOM Errors on MacBook (Memory/CPU limit)
-
-If you’re facing Out-of-Memory (OOM) errors on a MacBook, try the following:
-
-nano ~/.zshrc
-
-Add this to the file:
-
-export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
-export PYTORCH_ENABLE_MPS_FALLBACK=1
-
-Reload the configuration:
-
-source ~/.zshrc
+Issue	Fix
+Browser doesn’t open on VPS	Use cloudflared tunnel as shown above
+Node crashes due to low specs	Use a GPU server with at least 16GB RAM
+Permission errors	Run command with sudo, or ensure you’re in correct directory
+Missing packages	Run: sudo apt install -y build-essential python3-dev
+GPU not detected	Make sure NVIDIA drivers + CUDA installed (or rent from Hyperbolic)
+Port 3000 not accessible	Run: sudo ufw allow 3000/tcp and check with lsof -i :3000
+Docker errors	Restart Docker: sudo systemctl restart docker
+Python errors	Ensure you’re using source .venv/bin/activate before running commands
 
 
 
 ⸻
 
-3️⃣ How to Get Your Node Name?
-
-To find your Node ID, check the terminal output. It will display a unique identifier for your node.
-
-⸻
-
-4️⃣ Save Your Swarm.pem File (For Future Logins)
-
-If you need to copy the swarm.pem file from your VPS to your local machine, use the following command:
-
-scp USERNAME@YOUR_IP:~/rl-swarm/swarm.pem ~/swarm.pem
-
-This will save the file to your local machine’s root directory.
+💡 TIPS & NOTES
+	•	You don’t need a GPU to participate in the testnet, but GPU nodes earn better.
+	•	For GPU rentals, platforms like hyperbolic_labs or RunPod work great.
+	•	Keep your node online as long as possible for better uptime and potential rewards.
+	•	You can monitor logs inside the screen session or setup logging scripts.
 
 ⸻
 
-5️⃣ How to Start the Node the Next Day (Local PC)
-
-To resume running the node on your local machine:
-
-cd rl-swarm
-python3 -m venv .venv
-source .venv/bin/activate
-./run_rl_swarm.sh
-
-
-
-⸻
-
-6️⃣ Node Stuck & Getting Errors?
-
-If you’re experiencing issues with node errors, it could be due to low GPU or RAM. Here’s a quick fix:
-	1.	Stop your node by pressing Ctrl + C.
-	2.	Open the config file for your system:
-
-For WSL/Linux:
-
-nano ~/rl-swarm/hivemind_exp/configs/gpu/grpo-qwen-2.5-0.5b-deepseek-r1.yaml
-
-For Mac:
-
-nano ~/rl-swarm/hivemind_exp/configs/mac/grpo-qwen-2.5-0.5b-deepseek-r1.yaml
-
-	3.	Change:
-
-vllm_gpu_memory_utilization: 0.2
-
-to
-
-vllm_gpu_memory_utilization: 0.4
-
-Save with Ctrl + X, then press Y and Enter.
-
-restart the node and check if the issue is resolved
-
+Want this in PDF / Notion format or need help running on Hyperbolic? Just let me know — I’ll set it up for you.
 _____
 
 [Join the Community!](https://x.com/PhaResearcher)
